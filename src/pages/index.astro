@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const getSlug = (id: string) => id.replace(/\.mdx?$/, '');
+---
+<BaseLayout>
+  <section class="hero card">
+    <p class="eyebrow">Personal blog · Digital garden · Life OS</p>
+    <h1>把经历变成资产，把生活写成复利。</h1>
+    <p class="lead">
+      这里记录 777stay 的技术实践、职业观察、投资思考、阅读笔记和心理成长。不是为了表演完美，而是为了长期积累判断力。
+    </p>
+  </section>
+
+  <section class="grid" aria-label="topics">
+    <div class="tile card">
+      <h2>技术</h2>
+      <p>工程实践、AI 工具、项目复盘，以及从工作中提取的可迁移能力。</p>
+    </div>
+    <div class="tile card">
+      <h2>成长</h2>
+      <p>记录焦虑、行动、关系、自我主导性和人生复利的真实练习。</p>
+    </div>
+    <div class="tile card">
+      <h2>投资</h2>
+      <p>现金流、资产配置、指数定投、风险边界和长期主义。</p>
+    </div>
+  </section>
+
+  <section style="margin-top: 42px;">
+    <h2>最新文章</h2>
+    <div class="posts">
+      {posts.map((post) => (
+        <a class="post card" href={`/blog/${getSlug(post.id)}/`}>
+          <h2>{post.data.title}</h2>
+          <div class="meta">{post.data.pubDate.toLocaleDateString('zh-CN')} · {post.data.description}</div>
+          <div class="tags">
+            {post.data.tags.map((tag) => <span class="tag">#{tag}</span>)}
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

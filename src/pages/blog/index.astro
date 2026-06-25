@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const getSlug = (id: string) => id.replace(/\.mdx?$/, '');
+---
+<BaseLayout title="Blog · 777stay 的数字花园">
+  <section class="card" style="padding: clamp(24px, 5vw, 48px);">
+    <p class="eyebrow">Archive</p>
+    <h1 style="font-size: clamp(2rem, 5vw, 4rem);">所有文章</h1>
+    <p class="lead">长期写作不是为了即时反馈，而是让思考留下可复用的痕迹。</p>
+  </section>
+  <div class="posts">
+    {posts.map((post) => (
+      <a class="post card" href={`/blog/${getSlug(post.id)}/`}>
+        <h2>{post.data.title}</h2>
+        <div class="meta">{post.data.pubDate.toLocaleDateString('zh-CN')} · {post.data.description}</div>
+        <div class="tags">
+          {post.data.tags.map((tag) => <span class="tag">#{tag}</span>)}
+        </div>
+      </a>
+    ))}
+  </div>
+</BaseLayout>
