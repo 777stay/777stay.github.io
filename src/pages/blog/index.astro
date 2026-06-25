@@ -8,13 +8,13 @@ const posts = (await getCollection('blog')).sort(
 
 const getSlug = (id: string) => id.replace(/\.mdx?$/, '');
 ---
-<BaseLayout title="Blog · 777stay 的数字花园">
-  <section class="card" style="padding: clamp(24px, 5vw, 48px);">
+<BaseLayout title="Blog · 777stay 技术博客">
+  <section class="hero card" style="padding-block: clamp(30px, 6vw, 64px);">
     <p class="eyebrow">Archive</p>
-    <h1 style="font-size: clamp(2rem, 5vw, 4rem);">所有文章</h1>
-    <p class="lead">长期写作不是为了即时反馈，而是让思考留下可复用的痕迹。</p>
+    <h1 style="font-size: clamp(2.4rem, 6vw, 4.6rem);">技术文章归档</h1>
+    <p class="lead">按时间沉淀工程实践、系统设计、AI 工具链和项目复盘。目标不是日更，而是每篇文章都能在未来复用。</p>
   </section>
-  <div class="posts">
+  <div class="posts" style="margin-top: 28px;">
     {posts.map((post) => (
       <a class="post card" href={`/blog/${getSlug(post.id)}/`}>
         <h2>{post.data.title}</h2>

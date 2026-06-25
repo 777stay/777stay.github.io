@@ -10,30 +10,56 @@ const getSlug = (id: string) => id.replace(/\.mdx?$/, '');
 ---
 <BaseLayout>
   <section class="hero card">
-    <p class="eyebrow">Engineering notes · AI tools · System design</p>
-    <h1>记录技术积累，沉淀工程能力。</h1>
+    <p class="eyebrow">Engineering notes · Backend · AI workflow</p>
+    <h1>把每一次工程实践，沉淀成可复用的技术资产。</h1>
     <p class="lead">
-      这里是 777stay 的技术博客：记录后端开发、系统设计、AI 工具链、源码阅读和项目复盘，把零散经验沉淀成可复用的工程资产。
+      这里记录 777stay 的后端开发、系统设计、AI 工具链、源码阅读和项目复盘。每篇文章都尽量留下问题背景、方案取舍、踩坑记录和验证结果。
     </p>
+    <div class="actions">
+      <a class="button primary" href="/blog/">阅读文章</a>
+      <a class="button ghost" href="https://github.com/777stay" target="_blank" rel="noreferrer">查看 GitHub</a>
+    </div>
+    <div class="terminal-card card" aria-label="writing workflow preview">
+      <div class="terminal-bar">
+        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+        <span style="margin-left: 8px;">~/777stay.github.io</span>
+      </div>
+      <div class="terminal-body">
+        <div><span class="prompt">$</span> npm run new-post "redis-cache-breakdown"</div>
+        <div class="muted">create src/content/blog/redis-cache-breakdown.md</div>
+        <div><span class="prompt">$</span> npm run build</div>
+        <div class="muted">astro check && astro build · 0 errors</div>
+        <div><span class="prompt">$</span> git commit -m "Add Redis cache breakdown notes" && git push</div>
+      </div>
+    </div>
   </section>
 
   <section class="grid" aria-label="topics">
     <div class="tile card">
+      <div class="index">01 / PRACTICE</div>
       <h2>工程实践</h2>
       <p>后端开发、数据库、缓存、消息队列、部署、可观测性，以及真实项目中的取舍。</p>
     </div>
     <div class="tile card">
+      <div class="index">02 / AI WORKFLOW</div>
       <h2>AI 工具链</h2>
       <p>记录 AI 辅助编码、测试、调试、文档生成和个人知识管理的实践方法。</p>
     </div>
     <div class="tile card">
+      <div class="index">03 / RETROSPECTIVE</div>
       <h2>项目复盘</h2>
       <p>把问题背景、方案设计、踩坑记录和验证结果整理成下次可以复用的经验。</p>
     </div>
   </section>
 
-  <section style="margin-top: 42px;">
-    <h2>最新文章</h2>
+  <section style="margin-top: 56px;">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Latest writing</p>
+        <h2>最新文章</h2>
+      </div>
+      <p>文章按时间倒序排列。后续可以把这里扩展成标签筛选、系列文章和项目索引。</p>
+    </div>
     <div class="posts">
       {posts.map((post) => (
         <a class="post card" href={`/blog/${getSlug(post.id)}/`}>
