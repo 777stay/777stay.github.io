@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { getAllTags, sortPosts } from '../../utils/blog';
+
+const posts = sortPosts(await getCollection('blog'));
+const tags = getAllTags(posts);
+---
+<BaseLayout title="Tags · 777stay 技术博客" description="777stay 技术博客的主题标签索引。">
+  <section class="hero card" style="padding-block: clamp(30px, 6vw, 64px);">
+    <p class="eyebrow">Tags</p>
+    <h1 style="font-size: clamp(2.4rem, 6vw, 4.6rem);">主题标签</h1>
+    <p class="lead">用标签把零散文章组织成可持续积累的技术主题。</p>
+  </section>
+  <section class="card" style="margin-top: 28px; padding: clamp(22px, 4vw, 36px);">
+    <div class="tag-cloud">
+      {tags.map(([tag, count]) => <a class="tag" href={`/tags/${encodeURIComponent(tag)}/`}>#{tag} · {count}</a>)}
+    </div>
+  </section>
+</BaseLayout>

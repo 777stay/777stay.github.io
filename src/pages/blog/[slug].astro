@@ -1,11 +1,12 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection, render } from 'astro:content';
+import { formatDate, getReadingTime, getSlug } from '../../utils/blog';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
   return posts.map((post) => ({
-    params: { slug: post.id.replace(/\.mdx?$/, '') },
+    params: { slug: getSlug(post.id) },
     props: { post },
   }));
 }
@@ -13,15 +14,15 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await render(post);
 ---
-<BaseLayout title={`${post.data.title} · 777stay 的数字花园`} description={post.data.description}>
+<BaseLayout title={`${post.data.title} · 777stay 技术博客`} description={post.data.description}>
   <article class="prose card">
-    <p class="eyebrow">{post.data.pubDate.toLocaleDateString('zh-CN')}</p>
+    <p class="eyebrow">{formatDate(post.data.pubDate)} · {getReadingTime(post.body)}</p>
     <h1 style="font-size: clamp(2rem, 5vw, 4rem);">{post.data.title}</h1>
     <p class="lead">{post.data.description}</p>
     <div class="tags">
-      {post.data.tags.map((tag) => <span class="tag">#{tag}</span>)}
+      {post.data.tags.map((tag) => <a class="tag" href={`/tags/${encodeURIComponent(tag)}/`}>#{tag}</a>)}
     </div>
-    <hr style="border: 0; border-top: 1px solid var(--line); margin: 32px 0;" />
+    <hr />
     <Content />
   </article>
 </BaseLayout>

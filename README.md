@@ -50,6 +50,13 @@ tags: ["后端", "系统设计"]
 
 ## 设计方向
 
+当前实现借鉴了 GitHub 上流行博客项目的成熟模式：
+
+- AstroPaper / Openblog：SEO、RSS、sitemap、可访问性、文章优先。
+- Astro Ink：标签系统、轻量 Markdown 博客体验。
+- Tailwind Nextjs Starter Blog：面向技术写作的文章流、阅读时间、清晰归档。
+- Hugo PaperMod / Minimal Mistakes：快速、干净、响应式、长期维护的个人技术博客结构。
+
 当前视觉参考：Vercel 的极简工程感 + Linear 的深色精密感。
 
 核心原则：

@@ -1,15 +1,23 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
-import { formatDate, getReadingTime, getSlug, sortPosts } from '../../utils/blog';
+import { formatDate, getAllTags, getReadingTime, getSlug, sortPosts } from '../../utils/blog';
 
-const posts = sortPosts(await getCollection('blog'));
+export async function getStaticPaths() {
+  const posts = sortPosts(await getCollection('blog'));
+  return getAllTags(posts).map(([tag]) => ({
+    params: { tag },
+    props: { tag, posts: posts.filter((post) => post.data.tags.includes(tag)) },
+  }));
+}
+
+const { tag, posts } = Astro.props;
 ---
-<BaseLayout title="Blog · 777stay 技术博客">
+<BaseLayout title={`#${tag} · 777stay 技术博客`} description={`777stay 技术博客中 #${tag} 标签下的文章。`}>
   <section class="hero card" style="padding-block: clamp(30px, 6vw, 64px);">
-    <p class="eyebrow">Archive</p>
-    <h1 style="font-size: clamp(2.4rem, 6vw, 4.6rem);">技术文章归档</h1>
-    <p class="lead">按时间沉淀工程实践、系统设计、AI 工具链和项目复盘。目标不是日更，而是每篇文章都能在未来复用。</p>
+    <p class="eyebrow">Tag</p>
+    <h1 style="font-size: clamp(2.4rem, 6vw, 4.6rem);">#{tag}</h1>
+    <p class="lead">这个主题下共有 {posts.length} 篇文章。</p>
   </section>
   <section class="card" style="margin-top: 28px; padding: clamp(20px, 4vw, 34px);">
     <div class="archive-list">
@@ -21,7 +29,7 @@ const posts = sortPosts(await getCollection('blog'));
             <p class="archive-summary">{post.data.description}</p>
             <div class="tags">
               <span class="reading-time">{getReadingTime(post.body)}</span>
-              {post.data.tags.map((tag) => <a class="tag" href={`/tags/${encodeURIComponent(tag)}/`}>#{tag}</a>)}
+              {post.data.tags.map((item) => <a class="tag" href={`/tags/${encodeURIComponent(item)}/`}>#{item}</a>)}
             </div>
           </div>
         </article>

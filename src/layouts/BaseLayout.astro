@@ -179,7 +179,25 @@ const {
         background: rgba(255,255,255,0.035);
         font-family: 'Geist Mono', ui-monospace, monospace;
         font-size: 0.74rem;
+        transition: background .18s ease, color .18s ease, border-color .18s ease;
       }
+      a.tag:hover { background: rgba(124,135,255,0.14); color: var(--ink); border-color: rgba(124,135,255,0.44); }
+      .archive-list { display: grid; gap: 12px; margin-top: 28px; }
+      .archive-item {
+        display: grid;
+        grid-template-columns: 128px 1fr;
+        gap: 18px;
+        align-items: start;
+        padding: 20px 0;
+        border-bottom: 1px solid var(--line-soft);
+      }
+      .archive-item:last-child { border-bottom: 0; }
+      .archive-date { color: var(--subtle); font-family: 'Geist Mono', ui-monospace, monospace; font-size: 0.8rem; padding-top: 4px; }
+      .archive-item h2 { font-size: 1.28rem; letter-spacing: -0.032em; margin: 0 0 8px; }
+      .archive-summary { color: var(--muted); margin: 0; font-size: 0.95rem; }
+      .reading-time { color: var(--subtle); font-family: 'Geist Mono', ui-monospace, monospace; font-size: 0.78rem; }
+      .tag-cloud { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 24px; }
+      .tag-cloud .tag { font-size: 0.86rem; padding: 7px 12px; }
       .terminal-card {
         margin-top: 28px;
         padding: 0;
@@ -221,6 +239,7 @@ const {
         .hero { padding: 30px; }
         main { padding-top: 34px; }
         .section-heading { display: block; }
+        .archive-item { grid-template-columns: 1fr; gap: 6px; }
       }
       @media (prefers-reduced-motion: reduce) {
         *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
@@ -233,7 +252,9 @@ const {
         <a class="brand" href="/"><span class="brand-mark">7s</span><span>777stay 技术博客</span></a>
         <div class="nav-links">
           <a href="/blog/">Blog</a>
+          <a href="/tags/">Tags</a>
           <a href="/about/">About</a>
+          <a href="/rss.xml">RSS</a>
           <a href="https://github.com/777stay" target="_blank" rel="noreferrer">GitHub</a>
         </div>
       </nav>

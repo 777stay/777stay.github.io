@@ -1,36 +1,23 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
+import { formatDate, getAllTags, getReadingTime, getSlug, sortPosts } from '../utils/blog';
 
-const posts = (await getCollection('blog')).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-);
-
-const getSlug = (id: string) => id.replace(/\.mdx?$/, '');
+const posts = sortPosts(await getCollection('blog'));
+const featuredPosts = posts.slice(0, 5);
+const tags = getAllTags(posts).slice(0, 12);
 ---
 <BaseLayout>
   <section class="hero card">
     <p class="eyebrow">Engineering notes · Backend · AI workflow</p>
     <h1>把每一次工程实践，沉淀成可复用的技术资产。</h1>
     <p class="lead">
-      这里记录 777stay 的后端开发、系统设计、AI 工具链、源码阅读和项目复盘。每篇文章都尽量留下问题背景、方案取舍、踩坑记录和验证结果。
+      这里记录 777stay 的后端开发、系统设计、AI 工具链、源码阅读和项目复盘。写作目标不是热闹，而是把问题、方案、验证和复盘留成以后还能调用的知识资产。
     </p>
     <div class="actions">
       <a class="button primary" href="/blog/">阅读文章</a>
+      <a class="button ghost" href="/tags/">浏览标签</a>
       <a class="button ghost" href="https://github.com/777stay" target="_blank" rel="noreferrer">查看 GitHub</a>
-    </div>
-    <div class="terminal-card card" aria-label="writing workflow preview">
-      <div class="terminal-bar">
-        <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
-        <span style="margin-left: 8px;">~/777stay.github.io</span>
-      </div>
-      <div class="terminal-body">
-        <div><span class="prompt">$</span> npm run new-post "redis-cache-breakdown"</div>
-        <div class="muted">create src/content/blog/redis-cache-breakdown.md</div>
-        <div><span class="prompt">$</span> npm run build</div>
-        <div class="muted">astro check && astro build · 0 errors</div>
-        <div><span class="prompt">$</span> git commit -m "Add Redis cache breakdown notes" && git push</div>
-      </div>
     </div>
   </section>
 
@@ -58,18 +45,31 @@ const getSlug = (id: string) => id.replace(/\.mdx?$/, '');
         <p class="eyebrow">Latest writing</p>
         <h2>最新文章</h2>
       </div>
-      <p>文章按时间倒序排列。后续可以把这里扩展成标签筛选、系列文章和项目索引。</p>
+      <p>借鉴 AstroPaper / PaperMod / Tailwind Nextjs Starter Blog：把文章流作为首页核心，优先服务长期阅读与检索。</p>
     </div>
     <div class="posts">
-      {posts.map((post) => (
+      {featuredPosts.map((post) => (
         <a class="post card" href={`/blog/${getSlug(post.id)}/`}>
           <h2>{post.data.title}</h2>
-          <div class="meta">{post.data.pubDate.toLocaleDateString('zh-CN')} · {post.data.description}</div>
+          <div class="meta">{formatDate(post.data.pubDate)} · {getReadingTime(post.body)} · {post.data.description}</div>
           <div class="tags">
             {post.data.tags.map((tag) => <span class="tag">#{tag}</span>)}
           </div>
         </a>
       ))}
+    </div>
+  </section>
+
+  <section class="card" style="margin-top: 28px; padding: 24px;">
+    <div class="section-heading" style="margin-bottom: 0;">
+      <div>
+        <p class="eyebrow">Tags</p>
+        <h2>主题索引</h2>
+      </div>
+      <p>标签是技术博客的第二入口。后续文章多起来后，可以按“后端 / 系统设计 / AI 工具链 / 源码阅读”沉淀系列。</p>
+    </div>
+    <div class="tag-cloud">
+      {tags.map(([tag, count]) => <a class="tag" href={`/tags/${encodeURIComponent(tag)}/`}>#{tag} · {count}</a>)}
     </div>
   </section>
 </BaseLayout>
