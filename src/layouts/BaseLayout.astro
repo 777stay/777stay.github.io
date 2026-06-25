@@ -1,7 +1,7 @@
 ---
 const {
-  title = '777stay 的数字花园',
-  description = '记录技术、职业、投资、心理成长与生活复利。',
+  title = '777stay 的技术博客',
+  description = '记录后端开发、系统设计、AI 工具链、源码阅读和项目复盘。',
 } = Astro.props;
 ---
 <!doctype html>
@@ -79,7 +79,7 @@ const {
   <body>
     <header class="site-header shell">
       <nav>
-        <a class="brand" href="/">777stay 的数字花园</a>
+        <a class="brand" href="/">777stay 技术博客</a>
         <div class="nav-links">
           <a href="/blog/">Blog</a>
           <a href="/about/">About</a>
@@ -91,7 +91,7 @@ const {
       <slot />
     </main>
     <footer class="shell">
-      <span>© {new Date().getFullYear()} 777stay · build in public, compound quietly.</span>
+      <span>© {new Date().getFullYear()} 777stay · engineering notes, compounded.</span>
     </footer>
   </body>
 </html>
